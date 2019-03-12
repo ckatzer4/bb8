@@ -1,0 +1,11 @@
+[package]
+name = "bb8-tiberius"
+version = "0.1.0"
+authors = ["Charles Kazer <cpkatzer@gmail.com>"]
+
+[dependencies]
+bb8 = { path = ".." }
+futures = "0.1"
+futures-state-stream = "0.1"
+tokio = "0.1"
+tiberius = "0.3"

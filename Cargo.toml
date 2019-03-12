@@ -19,4 +19,5 @@ tokio = "0.1"
 members = [
     "postgres",
     "redis",
+    "tiberius",
 ]
