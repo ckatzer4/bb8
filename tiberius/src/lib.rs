@@ -12,9 +12,46 @@ use futures_state_stream::StateStream;
 use std::fmt;
 use std::io;
 
-/// A `bb8::ManageConnection` for `tiberius::SqlConnection`s
+/// Connection manager for `tiberius::SqlConnection`s
+///
+/// # Example:
+/// ```rust,no_run
+/// extern crate bb8;
+/// extern crate tiberius;
+/// use bb8_tiberius::TiberiusConnectionManager;
+///
+/// let pool = bb8::Pool::builder().build(TiberiusConnectionManager::new(
+///         "server=localhost:1433;user=auth;password=auth;",
+///     ));
+/// // use pool, see /examples/ directory in repository
+/// ```
 pub struct TiberiusConnectionManager {
     connection_string: String,
+}
+
+impl TiberiusConnectionManager {
+    /// Create a new `TiberiusConnectionManager` using the given `connection_string`.
+    ///
+    /// See the [Tiberius README] for more details about parameters in the connection string.
+    ///
+    /// # Example:
+    /// ```rust
+    /// extern crate bb8;
+    /// extern crate tiberius;
+    /// use bb8_tiberius::TiberiusConnectionManager;
+    ///
+    /// let cnxm_mgr = TiberiusConnectionManager::new(
+    ///         "server=localhost:1433;user=auth;password=auth;"
+    ///     );
+    /// ```
+    ///
+    ///
+    /// [Tiberius README]: https://github.com/steffengy/tiberius#supported-connection-string-parameters
+    pub fn new<S: std::string::ToString>(connection_string: S) -> TiberiusConnectionManager {
+        TiberiusConnectionManager {
+            connection_string: connection_string.to_string(),
+        }
+    }
 }
 
 impl bb8::ManageConnection for TiberiusConnectionManager {
